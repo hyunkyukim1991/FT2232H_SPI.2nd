@@ -1,0 +1,23 @@
+{
+    "arduino.path": "C:\\Program Files\\Arduino IDE",
+    "arduino.commandPath": "resources\\app\\lib\\backend\\resources\\arduino-cli.exe", 
+    "arduino.useArduinoCli": true,
+    "arduino.logLevel": "info",
+    "C_Cpp.intelliSenseEngine": "default",
+    "C_Cpp.configurationWarnings": "disabled",
+    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.default.includePath": [
+        "C:\\Program Files\\Arduino IDE\\resources\\app\\lib\\backend\\resources\\sketchbook\\hardware\\**",
+        "C:\\Program Files\\Arduino IDE\\resources\\app\\lib\\backend\\resources\\libraries\\**",
+        "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\**",
+        "${workspaceFolder}/**"
+    ],
+    "C_Cpp.default.defines": [
+        "ARDUINO=10607",
+        "ARDUINO_AVR_UNO",
+        "ARDUINO_ARCH_AVR",
+        "F_CPU=16000000L",
+        "__AVR_ATmega328P__"
+    ],
+    "C_Cpp.default.compilerPath": "C:\\Program Files\\Arduino IDE\\resources\\app\\lib\\backend\\resources\\tools\\avr-gcc\\7.3.0-atmel3.6.1-arduino7\\bin\\avr-gcc.exe"
+}

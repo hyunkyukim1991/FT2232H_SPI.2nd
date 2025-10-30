@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RegisterTreeViewer</class>
+ <widget class="QMainWindow" name="RegisterTreeViewer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1400</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Register Tree Viewer with 32-bit Controller</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="main_layout">
+    <item>
+     <widget class="QSplitter" name="main_splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QTreeWidget" name="tree_widget">
+       <property name="minimumSize">
+        <size>
+         <width>400</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>500</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <column>
+        <property name="text">
+         <string>Register/Field</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QWidget" name="control_widget">
+       <property name="minimumSize">
+        <size>
+         <width>500</width>
+         <height>0</height>
+        </size>
+       </property>
+       <layout class="QVBoxLayout" name="control_layout">
+        <item>
+         <widget class="QGroupBox" name="connection_group">
+          <property name="title">
+           <string>FT2232H Multi-Protocol Connection</string>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>160</height>
+           </size>
+          </property>
+          <layout class="QGridLayout" name="connection_layout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="protocol_label">
+             <property name="text">
+              <string>Protocol:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="protocol_combo">
+             <item>
+              <property name="text">
+               <string>SPI</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>I2C</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>UART</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="setup_label">
+             <property name="text">
+              <string>Setup:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QComboBox" name="setup_combo">
+             <property name="toolTip">
+              <string>Protocol-specific configuration options</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Mode 0 (CPOL=0, CPHA=0)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mode 1 (CPOL=0, CPHA=1)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mode 2 (CPOL=1, CPHA=0)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mode 3 (CPOL=1, CPHA=1)</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="url_label">
+             <property name="text">
+              <string>FTDI URL:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="3">
+            <widget class="QLineEdit" name="url_edit">
+             <property name="text">
+              <string>ftdi://ftdi:2232h/1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="freq_label">
+             <property name="text">
+              <string>Frequency:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="freq_edit">
+             <property name="text">
+              <string>1000000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" colspan="2">
+            <layout class="QHBoxLayout" name="buttonLayout">
+             <item>
+              <widget class="QPushButton" name="connect_btn">
+               <property name="text">
+                <string>Connect</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="disconnect_btn">
+               <property name="text">
+                <string>Disconnect</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QPushButton" name="simulate_btn">
+             <property name="text">
+              <string>Simulate Connection</string>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: #FFC107; color: black; font-weight: bold;</string>
+             </property>
+             <property name="toolTip">
+              <string>가상으로 FT2232H가 연결된 것처럼 동작합니다 (하드웨어 없이 테스트 가능)</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="single_register_group">
+          <property name="title">
+           <string>Single Register Control</string>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>80</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="single_register_layout">
+           <item>
+            <widget class="QLabel" name="addr_label">
+             <property name="text">
+              <string>Address (0x):</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="addr_edit">
+             <property name="text">
+              <string>00</string>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>80</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Register address in hexadecimal (without 0x prefix)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="data_label">
+             <property name="text">
+              <string>Data (0x):</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="data_edit">
+             <property name="text">
+              <string>00000000</string>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Data value in hexadecimal (without 0x prefix)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="single_write_btn">
+             <property name="text">
+              <string>Single Write</string>
+             </property>
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: #E91E63; color: white; font-weight: bold;</string>
+             </property>
+             <property name="toolTip">
+              <string>Write data to specified address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="single_read_btn">
+             <property name="text">
+              <string>Single Read</string>
+             </property>
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string>background-color: #00BCD4; color: white; font-weight: bold;</string>
+             </property>
+             <property name="toolTip">
+              <string>Read data from specified address</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="single_register_spacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="register_control_group">
+          <property name="title">
+           <string>32-bit Register Control (16x2 Array)</string>
+          </property>
+          <layout class="QVBoxLayout" name="register_control_layout">
+           <item>
+            <widget class="QFrame" name="bit_control_frame">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <layout class="QVBoxLayout" name="bit_control_layout">
+              <item>
+               <widget class="QWidget" name="bit_buttons_widget">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>80</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="hex_value_layout">
+                <item>
+                 <widget class="QLabel" name="hex_value_label">
+                  <property name="text">
+                   <string>Hex Value (0x):</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="hex_value_spinbox">
+                  <property name="displayIntegerBase">
+                   <number>16</number>
+                  </property>
+                  <property name="minimum">
+                   <number>0</number>
+                  </property>
+                  <property name="maximum">
+                   <number>2147483647</number>
+                  </property>
+                  <property name="value">
+                   <number>0</number>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>120</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="dec_value_label">
+                  <property name="text">
+                   <string>Dec:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="dec_value_display">
+                  <property name="text">
+                   <string>0</string>
+                  </property>
+                  <property name="styleSheet">
+                   <string>font-weight: bold;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="hex_spacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="spi_buttons_layout">
+             <item>
+              <widget class="QPushButton" name="write_btn">
+               <property name="text">
+                <string>Write</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string>background-color: #2196F3; color: white; font-weight: bold;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="write_all_btn">
+               <property name="text">
+                <string>Write All</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string>background-color: #FF9800; color: white; font-weight: bold;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="read_btn">
+               <property name="text">
+                <string>Read</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string>background-color: #4CAF50; color: white; font-weight: bold;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="read_all_btn">
+               <property name="text">
+                <string>Read All</string>
+               </property>
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="styleSheet">
+                <string>background-color: #9C27B0; color: white; font-weight: bold;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="desc_label">
+             <property name="text">
+              <string>Description:</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="desc_text">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>Select a register or field to view description</string>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>150</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="log_group">
+          <property name="title">
+           <string>Communication Log</string>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>150</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="log_layout">
+           <item>
+            <widget class="QTextEdit" name="log_text">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="font">
+              <font>
+               <family>Consolas</family>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="clear_log_btn">
+             <property name="text">
+              <string>Clear Log</string>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_file">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="action_open_excel"/>
+    <addaction name="action_save_json"/>
+    <addaction name="separator"/>
+    <addaction name="action_exit"/>
+   </widget>
+   <widget class="QMenu" name="menu_view">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="action_expand_all"/>
+    <addaction name="action_collapse_all"/>
+   </widget>
+   <widget class="QMenu" name="menu_help">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="action_protocol_guide"/>
+    <addaction name="separator"/>
+    <addaction name="action_about"/>
+   </widget>
+   <addaction name="menu_file"/>
+   <addaction name="menu_view"/>
+   <addaction name="menu_help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_open_excel">
+   <property name="text">
+    <string>Open Excel File</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_save_json">
+   <property name="text">
+    <string>Save as JSON</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_exit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_expand_all">
+   <property name="text">
+    <string>Expand All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="action_collapse_all">
+   <property name="text">
+    <string>Collapse All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="action_protocol_guide">
+   <property name="text">
+    <string>Protocol Connection Guide</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

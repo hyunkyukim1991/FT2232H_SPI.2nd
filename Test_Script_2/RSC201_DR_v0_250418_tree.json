@@ -1,0 +1,19 @@
+{
+  "registers": [
+    {
+      "address": "0x00",
+      "description": "Sample Register",
+      "fields": [
+        {
+          "name": "sample_field",
+          "bit_range": "15:0",
+          "upper_bit": 15,
+          "lower_bit": 0,
+          "default_value": "0",
+          "meaning": "Sample field for testing"
+        }
+      ],
+      "default_value": 0
+    }
+  ]
+}
